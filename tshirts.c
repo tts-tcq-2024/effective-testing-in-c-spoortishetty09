@@ -7,7 +7,7 @@ char size(int cms)
     if(cms < 38) 
     {
         sizeName = 'S';
-    } else if(cms >= 38 && cms <= 42) {  // Fixed the condition to include the boundary value 38
+    } else if(cms > 38 && cms < 42) {  // Fixed the condition to include the boundary value 38
         sizeName = 'M';
     } else if(cms > 42)
     {
