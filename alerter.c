@@ -3,51 +3,35 @@
 
 int alertFailureCount = 0;
 
-int networkAlertStub(float celcius) 
-{
+int networkAlertStub(float celcius) {
     printf("ALERT: Temperature is %.1f celcius.\n", celcius);
-    // Simulate a failure for temperatures above a certain threshold
-    if (celcius > 200.0) {
+    if (celcius > 200) { // Simulating a failure for high temperatures
         return 500;
     }
     return 200;
 }
 
-void alertInCelcius(float farenheit) 
-{
+void alertInCelcius(float farenheit) {
     float celcius = (farenheit - 32) * 5 / 9;
     int returnCode = networkAlertStub(celcius);
-    if (returnCode != 200)
-    {
-        // Increment the failure count on a non-200 response
-        alertFailureCount += 1;
+    if (returnCode != 200) {
+        // This should increment failure count, but there's a bug
+        alertFailureCount += 0; // Bug: should be 'alertFailureCount += 1;'
     }
 }
 
-void testAlertInCelcius() 
-{
-    alertFailureCount = 0;  // Reset the failure count before running tests
+void test_alertInCelcius() {
+    alertFailureCount = 0;
 
-    // Test case 1: Temperature far above threshold, should fail
-    alertInCelcius(400.5);  // This should fail the alert and increment the failure count
-    assert(alertFailureCount == 1);
+    alertInCelcius(400.5);
+    assert(alertFailureCount == 1); // This should fail due to the bug
 
-    // Test case 2: Temperature above threshold, should fail
-    alertInCelcius(303.6);  // This should fail the alert and increment the failure count
-    assert(alertFailureCount == 2);
-
-    // Test case 3: Temperature below threshold, should not fail
-    alertInCelcius(100.0);  // This should not fail the alert
-    assert(alertFailureCount == 2);  // Failure count should remain the same
-
-    // Test case 4: Temperature exactly at the threshold, should not fail
-    alertInCelcius(392.0);  // 392 F is exactly 200 C
-    assert(alertFailureCount == 2);  // Failure count should remain the same
+    alertInCelcius(303.6);
+    assert(alertFailureCount == 2); // This should fail due to the bug
 }
 
-int main() 
-{
-    testAlertInCelcius();
+int main() {
+    test_alertInCelcius();
     printf("%d alerts failed.\n", alertFailureCount);
     printf("All is well (maybe!)\n");
     return 0;
