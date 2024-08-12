@@ -24,10 +24,17 @@ void test_alertInCelcius() {
     alertFailureCount = 0;
 
     alertInCelcius(400.5);
-    assert(alertFailureCount == 1); // This should fail due to the bug
+    assert(alertFailureCount == 1); // Expected to fail due to the bug
 
     alertInCelcius(303.6);
-    assert(alertFailureCount == 2); // This should fail due to the bug
+    assert(alertFailureCount == 2); // Expected to fail due to the bug
+
+    // New test case to explicitly check for the bug
+    if (alertFailureCount != 2) {
+        printf("Bug detected: alertFailureCount is %d, expected 2.\n", alertFailureCount);
+    } else {
+        printf("No bug detected: alertFailureCount is %d.\n", alertFailureCount);
+    }
 }
 
 int main() {
