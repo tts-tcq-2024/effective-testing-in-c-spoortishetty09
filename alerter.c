@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
-
+#include "message.h"
 #include "alerter.h"
 
 
